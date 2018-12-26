@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use App\Http\Resources\EventResource;
+use App\Http\Resources\GameResource;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,6 +21,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::apiResource('/events', 'Api\EventController');
+Route::apiResource('/games', 'Api\GameController');
+
+//Route::apiResource('/games','Api\GameController');
 // Böyle yazılabilir ama API kaynağındaki tüm standart route'lar için üsttekini yazmak gerekiyor.
 // Route::get('/events', 'Api\EventController@index');
 // Route::get('/events/{id}', 'Api\EventController@show');

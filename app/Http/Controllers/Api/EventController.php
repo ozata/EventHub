@@ -48,7 +48,7 @@ class EventController extends Controller
             ], 422);
         }
 
-        Event::create($request->only('name','creator','when_is_it'));
+        Event::create($request->only('name','creator','when_is_it', 'game_id'));
 
         return response()->json([
             'success' => true,
@@ -110,7 +110,7 @@ class EventController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Saved'
-        ]);
+        ],204);
 
     }
 

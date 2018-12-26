@@ -15,10 +15,13 @@ class CreateEventsTable extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->default("name");
-            $table->string('creator')->default("creator");
-            $table->dateTime('when_is_it')->default("2019-01-01 00:00:00");
+            $table->string('name');
+            $table->string('creator');
+            $table->dateTime('when_is_it');
             $table->timestamps();
+            $table->integer('game_id')->unsigned()->index();
+            $table->foreign('game_id')->references('id')->on('games');
+
         });
     }
 

@@ -9,13 +9,21 @@ class Event extends Model
 {
     use Notifiable;
 
+
+    public function game(){
+
+        return $this->belongsTo(Game::class);
+
+    }
+
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'creator', 'when_is_it',
+        'name', 'creator', 'when_is_it','game_id'
     ];
 
 }
