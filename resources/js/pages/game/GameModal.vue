@@ -22,7 +22,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Description</label>
+                            <label class="col-sm-3 col-form-label">Descriptions</label>
                             <div class="col-sm-9">
                                 <input type="text" v-model="item.description" class="form-control">
                             </div>
