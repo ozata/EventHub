@@ -19,6 +19,21 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
+Route::group([
+
+    'middleware' => 'api',
+    'namespace' => 'App\Http\Controllers',
+    'prefix' => 'auth'
+
+], function ($router) {
+
+    Route::post('login', 'AuthController@login');
+    Route::post('logout', 'AuthController@logout');
+    Route::post('refresh', 'AuthController@refresh');
+    Route::post('me', 'AuthController@me');
+
+});
+
 
 Route::apiResource('/events', 'Api\EventController');
 Route::apiResource('/games', 'Api\GameController');
