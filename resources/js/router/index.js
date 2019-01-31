@@ -32,7 +32,6 @@ const routes = [
 ];
 
 export default new VueRouter({
-    mode: 'history',
+    mode: 'history', // Another mode is hash
     routes
-     //adam 'hash' kullandı.
 })
