@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use App\Http\Resources\EventResource;
 use App\Http\Resources\GameResource;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -30,12 +31,18 @@ Route::group([
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
+});
 
+Route::group([
+    'middleware' => 'api'
+], function ($router) {
+    Route::apiResource('/events', 'Api\EventController');
+    Route::apiResource('/games', 'Api\GameController');
 });
 
 
-Route::apiResource('/events', 'Api\EventController');
-Route::apiResource('/games', 'Api\GameController');
+
+
 
 //Route::apiResource('/games','Api\GameController');
 // Böyle yazılabilir ama API kaynağındaki tüm standart route'lar için üsttekini yazmak gerekiyor.
@@ -44,12 +51,11 @@ Route::apiResource('/games', 'Api\GameController');
 // Route::delete('/events/{id}', 'Api\EventController@destroy');
 
 
+// Tek resource'u wrappingsiz yapmak için
+//EventResource::withoutWrapping();
 
-    // Tek resource'u wrappingsiz yapmak için
-    //EventResource::withoutWrapping();
-
-    //return EventResource::collection(App\Event::paginate(10));
-    //return EventResource::collection(App\Event::all());
-    //return new EventResource(App\Event::find(1));
-    //return response()->json(['events' => App\Event::all()], 200);
-    //return App\Event::all();
+//return EventResource::collection(App\Event::paginate(10));
+//return EventResource::collection(App\Event::all());
+//return new EventResource(App\Event::find(1));
+//return response()->json(['events' => App\Event::all()], 200);
+//return App\Event::all();
