@@ -25176,7 +25176,7 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(15);
-module.exports = __webpack_require__(67);
+module.exports = __webpack_require__(68);
 
 
 /***/ }),
@@ -51101,9 +51101,8 @@ var routes = [{
 }];
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
-    mode: 'history',
+    mode: 'history', // Another mode is hash
     routes: routes
-    //adam 'hash' kullandı.
 }));
 
 /***/ }),
@@ -55134,7 +55133,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group row" }, [
                   _c("label", { staticClass: "col-sm-3 col-form-label" }, [
-                    _vm._v("Description")
+                    _vm._v("Descriptions")
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-sm-9" }, [
@@ -55380,7 +55379,8 @@ if (false) {
 }
 
 /***/ }),
-/* 67 */
+/* 67 */,
+/* 68 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
