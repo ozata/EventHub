@@ -17,20 +17,19 @@ use App\Http\Resources\GameResource;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+
 });
 
 
-Route::group([
-
-    'middleware' => 'api',
-    'prefix' => 'auth'
-
-], function ($router) {
-
+Route::prefix('auth')->group(function () {
+    Route::post('register', 'AuthController@register');
     Route::post('login', 'AuthController@login');
-    Route::post('logout', 'AuthController@logout');
-    Route::post('refresh', 'AuthController@refresh');
-    Route::post('me', 'AuthController@me');
+    Route::get('refresh', 'AuthController@refresh');
+
+    Route::group(['middleware' => 'auth:api'], function () {
+        Route::get('user', 'AuthController@user');
+        Route::post('logout', 'AuthController@logout');
+    });
 });
 
 Route::group([
@@ -40,9 +39,11 @@ Route::group([
     Route::apiResource('/games', 'Api\GameController');
 });
 
-
-
-
+Route::group(['middleware' => 'auth:api'], function(){
+    // Users
+    Route::get('users', 'UserController@index')->middleware('isAdmin');
+    Route::get('users/{id}', 'UserController@show')->middleware('isAdminOrSelf');
+});
 
 //Route::apiResource('/games','Api\GameController');
 // Böyle yazılabilir ama API kaynağındaki tüm standart route'lar için üsttekini yazmak gerekiyor.

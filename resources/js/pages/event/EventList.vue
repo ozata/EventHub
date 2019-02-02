@@ -35,9 +35,13 @@
                     <td>{{ creator }}</td>
                     <td>{{ when_is_it }}</td>
 
-                    <td>
-                        <button @click="editData(id)" class="btn btn-success">Edit Event</button>
+                    <td v-if="$auth.check(2)">
+                        <button @click="joinEvent" class="btn btn-success">Join Event!</button>
+                        <button @click="editData(id)" class="btn btn-info">Edit Event</button>
                         <button @click="deleteData(id)" class="btn btn-danger">Delete Event</button>
+                    </td>
+                    <td v-if="$auth.check(1)">
+                        <button @click="joinEvent" class="btn btn-success">Join Event!</button>
                     </td>
                 </tr>
 
