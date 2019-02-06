@@ -25,6 +25,8 @@
                                 <!-- <div class="dropdown-divider"></div> -->
                             </div>
                         </li>
+                    </ul>
+                    <ul class="navbar-nav ml-auto">
                         <!--UNLOGGED-->
                         <li class="nav-item" v-if="!$auth.check()">
                             <router-link :to="{ name : 'register' }"class="nav-link">
@@ -56,6 +58,15 @@
                         <li class="nav-item" v-if="$auth.check()">
                             <a href="#" @click.prevent="$auth.logout()">Logout</a>
                         </li>
+
+                        <!--
+                        <li class="nav-item" v-if="$auth.check()">
+                            <router-link v-on:click="$auth.logout()" :to="{name : Dashboard}" class="nav-link">
+                                Logout
+                            </router-link>
+                        </li>
+                        -->
+
 
                     </ul>
                 </div>
