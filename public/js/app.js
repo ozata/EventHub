@@ -58833,6 +58833,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -58891,6 +58894,22 @@ var render = function() {
           },
           [
             _c("ul", { staticClass: "navbar-nav mr-auto" }, [
+              _c(
+                "li",
+                { staticClass: "nav-item active" },
+                [
+                  _c(
+                    "router-link",
+                    {
+                      staticClass: "nav-link",
+                      attrs: { to: { name: "dashboard" } }
+                    },
+                    [_vm._v("Home Page")]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
               _vm.$auth.check(1) | _vm.$auth.check(2)
                 ? _c("li", { staticClass: "nav-item dropdown" }, [
                     _c(

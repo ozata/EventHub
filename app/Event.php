@@ -16,6 +16,10 @@ class Event extends Model
 
     }
 
+    public function users(){
+        return $this->belongsToMany('App\Event');
+    }
+
 
     /**
      * The attributes that are mass assignable.

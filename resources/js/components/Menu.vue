@@ -10,6 +10,9 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <router-link :to="{ name: 'dashboard' }" class="nav-link">Home Page</router-link>
+                        </li>
 
                         <li class="nav-item dropdown" v-if="$auth.check(1) | $auth.check(2)">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"

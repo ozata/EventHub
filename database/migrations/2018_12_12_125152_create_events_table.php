@@ -21,7 +21,6 @@ class CreateEventsTable extends Migration
             $table->timestamps();
             $table->integer('game_id')->unsigned()->index();
             $table->foreign('game_id')->references('id')->on('games');
-
         });
     }
 

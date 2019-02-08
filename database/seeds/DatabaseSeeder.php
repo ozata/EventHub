@@ -13,19 +13,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        //$this->call(EventsTableSeeder::class);
-        //$this->call(GamesTableSeeder::class);
-        User::create([
-            'name' => 'Admin',
-            'email' => 'admin@admin.com',
-            'password' => Hash::make('admin'),
-            'role' => 2
-        ]);
-        User::create([
-            'name' => 'User',
-            'email' => 'user@user.com',
-            'password' => Hash::make('secret'),
-            'role' => 1
-        ]);
+        $this->call(UsersTableSeeder::class);
+        $this->call(GamesTableSeeder::class);
+
     }
 }
