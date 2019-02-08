@@ -58891,71 +58891,61 @@ var render = function() {
           },
           [
             _c("ul", { staticClass: "navbar-nav mr-auto" }, [
-              _c(
-                "li",
-                { staticClass: "nav-item active" },
-                [
-                  _c(
-                    "router-link",
-                    {
-                      staticClass: "nav-link",
-                      attrs: { to: { name: "dashboard" } }
-                    },
-                    [_vm._v("Home Page")]
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c("li", { staticClass: "nav-item dropdown" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "nav-link dropdown-toggle",
-                    attrs: {
-                      href: "#",
-                      id: "navbarDropdown",
-                      role: "button",
-                      "data-toggle": "dropdown",
-                      "aria-haspopup": "true",
-                      "aria-expanded": "false"
-                    }
-                  },
-                  [
-                    _vm._v(
-                      "\n                                Events and Games\n                            "
-                    )
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass: "dropdown-menu",
-                    attrs: { "aria-labelledby": "navbarDropdown" }
-                  },
-                  [
+              _vm.$auth.check(1) | _vm.$auth.check(2)
+                ? _c("li", { staticClass: "nav-item dropdown" }, [
                     _c(
-                      "router-link",
+                      "a",
                       {
-                        staticClass: "dropdown-item",
-                        attrs: { to: { name: "event.index" } }
+                        staticClass: "nav-link dropdown-toggle",
+                        attrs: {
+                          href: "#",
+                          id: "navbarDropdown",
+                          role: "button",
+                          "data-toggle": "dropdown",
+                          "aria-haspopup": "true",
+                          "aria-expanded": "false"
+                        }
                       },
-                      [_vm._v("Event List\n                                ")]
+                      [
+                        _vm._v(
+                          "\n                                Events and Games\n                            "
+                        )
+                      ]
                     ),
                     _vm._v(" "),
                     _c(
-                      "router-link",
+                      "div",
                       {
-                        staticClass: "dropdown-item",
-                        attrs: { to: { name: "game.index" } }
+                        staticClass: "dropdown-menu",
+                        attrs: { "aria-labelledby": "navbarDropdown" }
                       },
-                      [_vm._v("Game List")]
+                      [
+                        _c(
+                          "router-link",
+                          {
+                            staticClass: "dropdown-item",
+                            attrs: { to: { name: "event.index" } }
+                          },
+                          [
+                            _vm._v(
+                              "Event List\n                                "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "router-link",
+                          {
+                            staticClass: "dropdown-item",
+                            attrs: { to: { name: "game.index" } }
+                          },
+                          [_vm._v("Game List")]
+                        )
+                      ],
+                      1
                     )
-                  ],
-                  1
-                )
-              ])
+                  ])
+                : _vm._e()
             ]),
             _vm._v(" "),
             _c(
