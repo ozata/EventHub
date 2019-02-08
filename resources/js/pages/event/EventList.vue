@@ -83,6 +83,9 @@
             this.fetchData();
         },
         methods: {
+            joinEvent(){
+                axios.put("/events");
+            },
             fetchData( page = 1) {
                 this.errorMessage = null;
                 this.list = null;

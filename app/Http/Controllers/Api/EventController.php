@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Event;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
@@ -105,6 +106,8 @@ class EventController extends Controller
             ], 422);
         }
 
+        dd(Auth::user()->id);
+        $event->users()->attach(Auth::user()->id);
         $event->update($request->only('name','creator','when_is_it'));
 
         return response()->json([

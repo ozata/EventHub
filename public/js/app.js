@@ -53638,7 +53638,7 @@ var render = function() {
                       staticClass: "nav-link",
                       attrs: { to: { name: "dashboard" } }
                     },
-                    [_vm._v("Home Page")]
+                    [_vm._v("Dashboard")]
                   )
                 ],
                 1
@@ -54001,6 +54001,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        joinEvent: function joinEvent() {
+            axios.put("/events");
+        },
         fetchData: function fetchData() {
             var _this = this;
 
@@ -58894,21 +58897,23 @@ var render = function() {
           },
           [
             _c("ul", { staticClass: "navbar-nav mr-auto" }, [
-              _c(
-                "li",
-                { staticClass: "nav-item active" },
-                [
-                  _c(
-                    "router-link",
-                    {
-                      staticClass: "nav-link",
-                      attrs: { to: { name: "dashboard" } }
-                    },
-                    [_vm._v("Home Page")]
+              _vm.$auth.check(2)
+                ? _c(
+                    "li",
+                    { staticClass: "nav-item active" },
+                    [
+                      _c(
+                        "router-link",
+                        {
+                          staticClass: "nav-link",
+                          attrs: { to: { name: "dashboard" } }
+                        },
+                        [_vm._v("Dashboard")]
+                      )
+                    ],
+                    1
                   )
-                ],
-                1
-              ),
+                : _vm._e(),
               _vm._v(" "),
               _vm.$auth.check(1) | _vm.$auth.check(2)
                 ? _c("li", { staticClass: "nav-item dropdown" }, [

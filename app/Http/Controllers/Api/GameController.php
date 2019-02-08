@@ -20,7 +20,7 @@ class GameController extends Controller
      */
     public function index()
     {
-        $games = GameResource::collection(Game::orderByDesc('id')->paginate(5));
+        $games = GameResource::collection(Game::orderByDesc('id')->paginate(100));
         return $games;
         //return response()->json(['games' => $games], 200);
     }
