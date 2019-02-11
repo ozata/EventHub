@@ -87,13 +87,7 @@
         },
         methods: {
             joinEvent(){
-                axios.post("events.join", this.item)
-                    .then(response => {
-                        alert(JSON.stringify(response.data))
-                    })
-                    .catch(error => {
-                        alert('no')
-                    });
+
             },
             fetchData( page = 1) {
                 this.errorMessage = null;

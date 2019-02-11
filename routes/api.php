@@ -45,7 +45,7 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::get('users/{id}', 'UserController@show')->middleware('isAdminOrSelf');
 });
 
-Route::post('events', 'EventController@join')->name('events.join');
+//Route::post('events', 'Api\EventController@join')->name('events.join');
 
 //Route::apiResource('/games','Api\GameController');
 // Böyle yazılabilir ama API kaynağındaki tüm standart route'lar için üsttekini yazmak gerekiyor.

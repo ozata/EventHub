@@ -54004,13 +54004,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
-        joinEvent: function joinEvent() {
-            axios.post("events.join", this.item).then(function (response) {
-                alert(JSON.stringify(response.data));
-            }).catch(function (error) {
-                alert('no');
-            });
-        },
+        joinEvent: function joinEvent() {},
         fetchData: function fetchData() {
             var _this = this;
 
