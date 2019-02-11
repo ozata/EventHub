@@ -106,17 +106,14 @@ class EventController extends Controller
             ], 422);
         }
 
-        dd(Auth::user()->id);
-        $event->users()->attach(Auth::user()->id);
-        $event->update($request->only('name','creator','when_is_it'));
+        $event->update($request->only('name','creator','when_is_it', 'game_id'));
 
         return response()->json([
             'success' => true,
             'message' => 'Saved'
-        ],204);
+        ],206);
 
     }
-
 
 
     // Bir ID'ye ait kaydı silmeyi sağlar

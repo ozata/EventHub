@@ -73,7 +73,6 @@
         methods: {
             saveItem() {
                 if (this.item.id > 0) {
-
                     axios.put('/events/'+this.item.id ,this.item)
                         .then(response => {
                             if (response.data.success) {

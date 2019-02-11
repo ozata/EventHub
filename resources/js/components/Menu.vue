@@ -58,8 +58,14 @@
                         </li>
 
                         <!--LOGOUT-->
-                        <li class="nav-item" v-if="$auth.check()">
-                            <a href="#" @click.prevent="$auth.logout()">Logout</a>
+                        <li class="nav-item dropdown" v-if="$auth.check()">
+                            <a class="nav-link dropdown-toggle" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{$auth.user().name }}
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" align="center">
+                                <a href="#" class="dropdown-item" @click.prevent="$auth.logout()">Logout</a>
+                            </div>
                         </li>
 
                         <!--

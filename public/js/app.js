@@ -54002,7 +54002,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         joinEvent: function joinEvent() {
-            axios.put("/events");
+            axios.get("/test", this.item).then(function (response) {
+                alert(JSON.stringify(response.data));
+            }).catch(function (error) {
+                alert('false');
+            });
         },
         fetchData: function fetchData() {
             var _this = this;
@@ -54343,7 +54347,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this2 = this;
 
             if (this.item.id > 0) {
-
                 axios.put('/events/' + this.item.id, this.item).then(function (response) {
                     if (response.data.success) {
 
@@ -58839,6 +58842,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -59075,19 +59084,52 @@ var render = function() {
                 }),
                 _vm._v(" "),
                 _vm.$auth.check()
-                  ? _c("li", { staticClass: "nav-item" }, [
+                  ? _c("li", { staticClass: "nav-item dropdown" }, [
                       _c(
                         "a",
                         {
-                          attrs: { href: "#" },
-                          on: {
-                            click: function($event) {
-                              $event.preventDefault()
-                              _vm.$auth.logout()
-                            }
+                          staticClass: "nav-link dropdown-toggle",
+                          attrs: {
+                            role: "button",
+                            "data-toggle": "dropdown",
+                            "aria-haspopup": "true",
+                            "aria-expanded": "false"
                           }
                         },
-                        [_vm._v("Logout")]
+                        [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(_vm.$auth.user().name) +
+                              "\n                            "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass: "dropdown-menu dropdown-menu-right",
+                          attrs: {
+                            "aria-labelledby": "navbarDropdown",
+                            align: "center"
+                          }
+                        },
+                        [
+                          _c(
+                            "a",
+                            {
+                              staticClass: "dropdown-item",
+                              attrs: { href: "#" },
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  _vm.$auth.logout()
+                                }
+                              }
+                            },
+                            [_vm._v("Logout")]
+                          )
+                        ]
                       )
                     ])
                   : _vm._e()
