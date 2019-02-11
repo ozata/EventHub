@@ -38,6 +38,9 @@
                     <button @click="editData(id)" class="btn btn-success">Edit</button>
                     <button @click="deleteData(id)" class="btn btn-danger">Delete</button>
                 </td>
+
+
+
             </tr>
 
         </table>

@@ -17,6 +17,12 @@ class EventController extends Controller
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
 
+
+
+    public function join(Request $request, Event $event, $id){
+        $event->users()->attach($id);
+    }
+
     // Bir model içerisindeki tüm kayıtları çekmeyi sağlar.
     public function index()
     {   $events = EventResource::collection(Event::orderByDesc('id')->paginate(5));

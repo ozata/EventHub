@@ -26,7 +26,9 @@
                     <th>Name</th>
                     <th>Created By</th>
                     <th>When</th>
+                    <th>Participants</th>
                     <th>Action</th>
+
                 </tr>
 
                 <tr v-for="{id, name, creator, when_is_it} in list">
@@ -34,7 +36,7 @@
                     <td>{{ name }}</td>
                     <td>{{ creator }}</td>
                     <td>{{ when_is_it }}</td>
-
+                    <td>Ata</td>
                     <td v-if="$auth.check(2)">
                         <button @click="joinEvent" class="btn btn-success">Join Event!</button>
                         <button @click="editData(id)" class="btn btn-info">Edit Event</button>
@@ -43,6 +45,7 @@
                     <td v-if="$auth.check(1)">
                         <button @click="joinEvent" class="btn btn-success">Join Event!</button>
                     </td>
+
                 </tr>
 
             </table>
@@ -84,7 +87,7 @@
         },
         methods: {
             joinEvent(){
-                axios.get("/test", this.item)
+                axios.post("events", this.item)
                     .then(response => {
                         alert(JSON.stringify(response.data))
                     })

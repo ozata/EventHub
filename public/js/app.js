@@ -53977,6 +53977,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -54002,7 +54005,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         joinEvent: function joinEvent() {
-            axios.get("/test", this.item).then(function (response) {
+            axios.post("events", this.item).then(function (response) {
                 alert(JSON.stringify(response.data));
             }).catch(function (error) {
                 alert('false');
@@ -54694,6 +54697,8 @@ var render = function() {
                   _vm._v(" "),
                   _c("td", [_vm._v(_vm._s(when_is_it))]),
                   _vm._v(" "),
+                  _c("td", [_vm._v("Ata")]),
+                  _vm._v(" "),
                   _vm.$auth.check(2)
                     ? _c("td", [
                         _c(
@@ -54774,6 +54779,8 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", [_vm._v("When")]),
       _vm._v(" "),
+      _c("th", [_vm._v("Participants")]),
+      _vm._v(" "),
       _c("th", [_vm._v("Action")])
     ])
   }
@@ -54844,6 +54851,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Pagination___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Pagination__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__GameModal__ = __webpack_require__(62);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__GameModal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__GameModal__);
+//
+//
+//
 //
 //
 //
@@ -58834,18 +58844,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -58903,224 +58901,160 @@ var render = function() {
             attrs: { id: "navbarSupportedContent" }
           },
           [
-            _c(
-              "ul",
-              { staticClass: "navbar-nav mr-auto" },
-              [
-                _vm.$auth.check(1) | _vm.$auth.check(2)
-                  ? _c("li", { staticClass: "nav-item dropdown" }, [
-                      _c(
-                        "a",
-                        {
-                          staticClass: "nav-link dropdown-toggle",
-                          attrs: {
-                            href: "#",
-                            id: "navbarDropdown",
-                            role: "button",
-                            "data-toggle": "dropdown",
-                            "aria-haspopup": "true",
-                            "aria-expanded": "false"
-                          }
-                        },
-                        [
-                          _vm._v(
-                            "\n                                Events and Games\n                            "
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass: "dropdown-menu",
-                          attrs: { "aria-labelledby": "navbarDropdown" }
-                        },
-                        [
-                          _c(
-                            "router-link",
-                            {
-                              staticClass: "dropdown-item",
-                              attrs: { to: { name: "event.index" } }
-                            },
-                            [
-                              _vm._v(
-                                "Event List\n                                "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "router-link",
-                            {
-                              staticClass: "dropdown-item",
-                              attrs: { to: { name: "game.index" } }
-                            },
-                            [_vm._v("Game List")]
-                          )
-                        ],
-                        1
-                      )
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm._l(_vm.routes.admin, function(route, key) {
-                  return _vm.$auth.check(2)
-                    ? _c(
-                        "li",
-                        { key: route.path, staticClass: "nav-item" },
-                        [
-                          _c(
-                            "router-link",
-                            {
-                              key: key,
-                              staticClass: "nav-link",
-                              attrs: { to: { name: route.path } }
-                            },
-                            [
-                              _vm._v(
-                                "\n                                " +
-                                  _vm._s(route.name) +
-                                  "\n                            "
-                              )
-                            ]
-                          )
-                        ],
-                        1
-                      )
-                    : _vm._e()
-                })
-              ],
-              2
-            ),
+            _c("ul", { staticClass: "navbar-nav mr-auto" }, [
+              _vm.$auth.check(1) | _vm.$auth.check(2)
+                ? _c("li", { staticClass: "nav-item dropdown" }, [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "nav-link dropdown-toggle",
+                        attrs: {
+                          href: "#",
+                          id: "navbarDropdown",
+                          role: "button",
+                          "data-toggle": "dropdown",
+                          "aria-haspopup": "true",
+                          "aria-expanded": "false"
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                                Events and Games\n                            "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "dropdown-menu",
+                        attrs: { "aria-labelledby": "navbarDropdown" }
+                      },
+                      [
+                        _c(
+                          "router-link",
+                          {
+                            staticClass: "dropdown-item",
+                            attrs: { to: { name: "event.index" } }
+                          },
+                          [
+                            _vm._v(
+                              "Event List\n                                "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "router-link",
+                          {
+                            staticClass: "dropdown-item",
+                            attrs: { to: { name: "game.index" } }
+                          },
+                          [_vm._v("Game List")]
+                        )
+                      ],
+                      1
+                    )
+                  ])
+                : _vm._e()
+            ]),
             _vm._v(" "),
-            _c(
-              "ul",
-              { staticClass: "navbar-nav ml-auto" },
-              [
-                !_vm.$auth.check()
-                  ? _c(
-                      "li",
-                      { staticClass: "nav-item" },
-                      [
-                        _c(
-                          "router-link",
-                          {
-                            staticClass: "nav-link",
-                            attrs: { to: { name: "register" } }
-                          },
-                          [
-                            _vm._v(
-                              "\n                                Register\n                            "
-                            )
-                          ]
-                        )
-                      ],
-                      1
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                !_vm.$auth.check()
-                  ? _c(
-                      "li",
-                      { staticClass: "nav-item" },
-                      [
-                        _c(
-                          "router-link",
-                          {
-                            staticClass: "nav-link",
-                            attrs: { to: { name: "login" } }
-                          },
-                          [
-                            _vm._v(
-                              "\n                                Login\n                            "
-                            )
-                          ]
-                        )
-                      ],
-                      1
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm._l(_vm.routes.user, function(route, key) {
-                  return _vm.$auth.check(1)
-                    ? _c(
-                        "li",
-                        { key: route.path, staticClass: "nav-item" },
-                        [
-                          _c(
-                            "router-link",
-                            {
-                              key: key,
-                              staticClass: "nav-link",
-                              attrs: { to: { name: route.path } }
-                            },
-                            [
-                              _vm._v(
-                                "\n                                " +
-                                  _vm._s(route.name) +
-                                  "\n                            "
-                              )
-                            ]
-                          )
-                        ],
-                        1
-                      )
-                    : _vm._e()
-                }),
-                _vm._v(" "),
-                _vm.$auth.check()
-                  ? _c("li", { staticClass: "nav-item dropdown" }, [
+            _c("ul", { staticClass: "navbar-nav ml-auto" }, [
+              !_vm.$auth.check()
+                ? _c(
+                    "li",
+                    { staticClass: "nav-item" },
+                    [
                       _c(
-                        "a",
+                        "router-link",
                         {
-                          staticClass: "nav-link dropdown-toggle",
-                          attrs: {
-                            role: "button",
-                            "data-toggle": "dropdown",
-                            "aria-haspopup": "true",
-                            "aria-expanded": "false"
-                          }
+                          staticClass: "nav-link",
+                          attrs: { to: { name: "register" } }
                         },
                         [
                           _vm._v(
-                            "\n                                " +
-                              _vm._s(_vm.$auth.user().name) +
-                              "\n                            "
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass: "dropdown-menu dropdown-menu-right",
-                          attrs: {
-                            "aria-labelledby": "navbarDropdown",
-                            align: "center"
-                          }
-                        },
-                        [
-                          _c(
-                            "a",
-                            {
-                              staticClass: "dropdown-item",
-                              attrs: { href: "#" },
-                              on: {
-                                click: function($event) {
-                                  $event.preventDefault()
-                                  _vm.$auth.logout()
-                                }
-                              }
-                            },
-                            [_vm._v("Logout")]
+                            "\n                                Register\n                            "
                           )
                         ]
                       )
-                    ])
-                  : _vm._e()
-              ],
-              2
-            )
+                    ],
+                    1
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              !_vm.$auth.check()
+                ? _c(
+                    "li",
+                    { staticClass: "nav-item" },
+                    [
+                      _c(
+                        "router-link",
+                        {
+                          staticClass: "nav-link",
+                          attrs: { to: { name: "login" } }
+                        },
+                        [
+                          _vm._v(
+                            "\n                                Login\n                            "
+                          )
+                        ]
+                      )
+                    ],
+                    1
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.$auth.check()
+                ? _c("li", { staticClass: "nav-item dropdown" }, [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "nav-link dropdown-toggle",
+                        attrs: {
+                          role: "button",
+                          "data-toggle": "dropdown",
+                          "aria-haspopup": "true",
+                          "aria-expanded": "false"
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                                " +
+                            _vm._s(_vm.$auth.user().name) +
+                            "\n                            "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "dropdown-menu dropdown-menu-right",
+                        attrs: {
+                          "aria-labelledby": "navbarDropdown",
+                          align: "center"
+                        }
+                      },
+                      [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "dropdown-item",
+                            attrs: { href: "#" },
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                _vm.$auth.logout()
+                              }
+                            }
+                          },
+                          [_vm._v("Logout")]
+                        )
+                      ]
+                    )
+                  ])
+                : _vm._e()
+            ])
           ]
         )
       ])
