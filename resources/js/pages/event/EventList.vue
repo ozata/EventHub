@@ -87,12 +87,12 @@
         },
         methods: {
             joinEvent(){
-                axios.post("events", this.item)
+                axios.post("events.join", this.item)
                     .then(response => {
                         alert(JSON.stringify(response.data))
                     })
                     .catch(error => {
-                        alert('false')
+                        alert('no')
                     });
             },
             fetchData( page = 1) {

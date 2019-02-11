@@ -54005,10 +54005,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         joinEvent: function joinEvent() {
-            axios.post("events", this.item).then(function (response) {
+            axios.post("events.join", this.item).then(function (response) {
                 alert(JSON.stringify(response.data));
             }).catch(function (error) {
-                alert('false');
+                alert('no');
             });
         },
         fetchData: function fetchData() {
