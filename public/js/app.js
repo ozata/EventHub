@@ -58846,8 +58846,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -58905,81 +58903,95 @@ var render = function() {
             attrs: { id: "navbarSupportedContent" }
           },
           [
-            _c("ul", { staticClass: "navbar-nav mr-auto" }, [
-              _vm.$auth.check(2)
-                ? _c(
-                    "li",
-                    { staticClass: "nav-item active" },
-                    [
+            _c(
+              "ul",
+              { staticClass: "navbar-nav mr-auto" },
+              [
+                _vm.$auth.check(1) | _vm.$auth.check(2)
+                  ? _c("li", { staticClass: "nav-item dropdown" }, [
                       _c(
-                        "router-link",
+                        "a",
                         {
-                          staticClass: "nav-link",
-                          attrs: { to: { name: "dashboard" } }
+                          staticClass: "nav-link dropdown-toggle",
+                          attrs: {
+                            href: "#",
+                            id: "navbarDropdown",
+                            role: "button",
+                            "data-toggle": "dropdown",
+                            "aria-haspopup": "true",
+                            "aria-expanded": "false"
+                          }
                         },
-                        [_vm._v("Dashboard")]
+                        [
+                          _vm._v(
+                            "\n                                Events and Games\n                            "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass: "dropdown-menu",
+                          attrs: { "aria-labelledby": "navbarDropdown" }
+                        },
+                        [
+                          _c(
+                            "router-link",
+                            {
+                              staticClass: "dropdown-item",
+                              attrs: { to: { name: "event.index" } }
+                            },
+                            [
+                              _vm._v(
+                                "Event List\n                                "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "router-link",
+                            {
+                              staticClass: "dropdown-item",
+                              attrs: { to: { name: "game.index" } }
+                            },
+                            [_vm._v("Game List")]
+                          )
+                        ],
+                        1
                       )
-                    ],
-                    1
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.$auth.check(1) | _vm.$auth.check(2)
-                ? _c("li", { staticClass: "nav-item dropdown" }, [
-                    _c(
-                      "a",
-                      {
-                        staticClass: "nav-link dropdown-toggle",
-                        attrs: {
-                          href: "#",
-                          id: "navbarDropdown",
-                          role: "button",
-                          "data-toggle": "dropdown",
-                          "aria-haspopup": "true",
-                          "aria-expanded": "false"
-                        }
-                      },
-                      [
-                        _vm._v(
-                          "\n                                Events and Games\n                            "
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass: "dropdown-menu",
-                        attrs: { "aria-labelledby": "navbarDropdown" }
-                      },
-                      [
-                        _c(
-                          "router-link",
-                          {
-                            staticClass: "dropdown-item",
-                            attrs: { to: { name: "event.index" } }
-                          },
-                          [
-                            _vm._v(
-                              "Event List\n                                "
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "router-link",
-                          {
-                            staticClass: "dropdown-item",
-                            attrs: { to: { name: "game.index" } }
-                          },
-                          [_vm._v("Game List")]
-                        )
-                      ],
-                      1
-                    )
-                  ])
-                : _vm._e()
-            ]),
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm._l(_vm.routes.admin, function(route, key) {
+                  return _vm.$auth.check(2)
+                    ? _c(
+                        "li",
+                        { key: route.path, staticClass: "nav-item" },
+                        [
+                          _c(
+                            "router-link",
+                            {
+                              key: key,
+                              staticClass: "nav-link",
+                              attrs: { to: { name: route.path } }
+                            },
+                            [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(route.name) +
+                                  "\n                            "
+                              )
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    : _vm._e()
+                })
+              ],
+              2
+            ),
             _vm._v(" "),
             _c(
               "ul",
@@ -59031,33 +59043,6 @@ var render = function() {
                 _vm._v(" "),
                 _vm._l(_vm.routes.user, function(route, key) {
                   return _vm.$auth.check(1)
-                    ? _c(
-                        "li",
-                        { key: route.path, staticClass: "nav-item" },
-                        [
-                          _c(
-                            "router-link",
-                            {
-                              key: key,
-                              staticClass: "nav-link",
-                              attrs: { to: { name: route.path } }
-                            },
-                            [
-                              _vm._v(
-                                "\n                                " +
-                                  _vm._s(route.name) +
-                                  "\n                            "
-                              )
-                            ]
-                          )
-                        ],
-                        1
-                      )
-                    : _vm._e()
-                }),
-                _vm._v(" "),
-                _vm._l(_vm.routes.admin, function(route, key) {
-                  return _vm.$auth.check(2)
                     ? _c(
                         "li",
                         { key: route.path, staticClass: "nav-item" },

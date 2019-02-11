@@ -10,10 +10,6 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active" v-if="$auth.check(2)">
-                            <router-link :to="{ name: 'dashboard' }" class="nav-link">Dashboard</router-link>
-                        </li>
-
                         <li class="nav-item dropdown" v-if="$auth.check(1) | $auth.check(2)">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -25,6 +21,14 @@
                                 <router-link :to="{ name: 'game.index' }" class="dropdown-item">Game List</router-link>
                                 <!-- <div class="dropdown-divider"></div> -->
                             </div>
+                        </li>
+
+                        <!--LOGGED ADMIN-->
+                        <li class="nav-item" v-if="$auth.check(2)" v-for="(route, key) in routes.admin"
+                            v-bind:key="route.path">
+                            <router-link :to="{ name : route.path }" :key="key" class="nav-link">
+                                {{route.name}}
+                            </router-link>
                         </li>
 
 
@@ -49,13 +53,7 @@
                             </router-link>
                         </li>
 
-                        <!--LOGGED ADMIN-->
-                        <li class="nav-item" v-if="$auth.check(2)" v-for="(route, key) in routes.admin"
-                            v-bind:key="route.path">
-                            <router-link :to="{ name : route.path }" :key="key" class="nav-link">
-                                {{route.name}}
-                            </router-link>
-                        </li>
+
 
                         <!--LOGOUT-->
                         <li class="nav-item dropdown" v-if="$auth.check()">
