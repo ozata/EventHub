@@ -45,20 +45,7 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::get('users/{id}', 'UserController@show')->middleware('isAdminOrSelf');
 });
 
-//Route::post('events', 'Api\EventController@join')->name('events.join');
 
-//Route::apiResource('/games','Api\GameController');
-// Böyle yazılabilir ama API kaynağındaki tüm standart route'lar için üsttekini yazmak gerekiyor.
-// Route::get('/events', 'Api\EventController@index');
-// Route::get('/events/{id}', 'Api\EventController@show');
-// Route::delete('/events/{id}', 'Api\EventController@destroy');
-
-
-// Tek resource'u wrappingsiz yapmak için
-//EventResource::withoutWrapping();
-
-//return EventResource::collection(App\Event::paginate(10));
-//return EventResource::collection(App\Event::all());
-//return new EventResource(App\Event::find(1));
-//return response()->json(['events' => App\Event::all()], 200);
-//return App\Event::all();
+Route::post('events/join/{id}', 'Api\EventController@join')->name('events.join');
+Route::post('events/getparticipants', 'Api\EventController@getParticipants')->name('events.getparticipants');
+Route::post('events/players/{id}', 'Api\EventController@getPlayers')->name('events.getplayers');

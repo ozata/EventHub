@@ -7,126 +7,171 @@
             <button @click="createData" class="btn btn-success">New Event</button>
 
         </div>
-            
-            <h1> Events </h1>
-            
-            
-            
-            
-            <div v-if="errorMessage" class="alert alert-danger">
-                {{ errorMessage }}
-            </div>
 
-            
+        <h1> Events </h1>
 
 
-            <table class="table table-bordered table-hover" v-if="list && list.length">
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Created By</th>
-                    <th>When</th>
-                    <th>Participants</th>
-                    <th>Action</th>
-
-                </tr>
-
-                <tr v-for="{id, name, creator, when_is_it} in list">
-                    <td>{{ id   }}</td>
-                    <td>{{ name }}</td>
-                    <td>{{ creator }}</td>
-                    <td>{{ when_is_it }}</td>
-                    <td>Ata</td>
-                    <td v-if="$auth.check(2)">
-                        <button @click="joinEvent" class="btn btn-success">Join Event!</button>
-                        <button @click="editData(id)" class="btn btn-info">Edit Event</button>
-                        <button @click="deleteData(id)" class="btn btn-danger">Delete Event</button>
-                    </td>
-                    <td v-if="$auth.check(1)">
-                        <button @click="joinEvent" class="btn btn-success">Join Event!</button>
-                    </td>
-
-                </tr>
-
-            </table>
-
-            <p v-else> No Records Found. </p>
+        <div v-if="errorMessage" class="alert alert-danger">
+            {{ errorMessage }}
+        </div>
 
 
-            <!-- Pagination başlıyor hocam dikkat etmek lazım!!!!-->
-            <pagination :meta="meta" v-on:pageChange="fetchData"></pagination>
+        <table class="table table-bordered table-hover" v-if="list && list.length">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Created By</th>
+                <th>When</th>
+                <th>Participants</th>
+                <th>Action</th>
+
+            </tr>
+
+            <tr v-for="{id, name, creator, when_is_it} in list">
+                <td>{{ id }}</td>
+                <td>{{ name }}</td>
+                <td>{{ creator }}</td>
+                <td>{{ when_is_it }}</td>
+                <td>
+                    <div v-for="participant in participants[id]">
+                        <li> {{ participant.email}} </li>
+                    </div>
+
+                </td>
+                <td v-if="$auth.check(2)">
+                    <button @click="joinEvent(id)" class="btn btn-success">Join Event!</button>
+                    <button @click="editData(id)" class="btn btn-info">Edit Event</button>
+                    <button @click="deleteData(id)" class="btn btn-danger">Delete Event</button>
+                </td>
+                <td v-if="$auth.check(1)">
+                    <button @click="joinEvent(id)" class="btn btn-success">Join Event!</button>
+                </td>
+
+            </tr>
+
+        </table>
+
+        <p v-else> Loading ... </p>
+
+
+        <!-- Pagination başlıyor hocam dikkat etmek lazım!!!!-->
+        <pagination :meta="meta" v-on:pageChange="fetchData"></pagination>
 
 
     </div>
 </template>
 
-<script>    
+<script>
     import Pagination from "../../components/Pagination";
     import EventModal from "./EventModal";
 
-
-
-
     export default {
-        components: {Pagination,EventModal},
+        components: {Pagination, EventModal},
         data() {
             return {
                 item: {
                     name: '',
-                    creator:'',
+                    creator: '',
                     when_is_it: '',
-                    game_id:''
+                    game_id: '',
                 },
                 list: null,
+                participants: null,
+                event_participants: [],
+                number_of_players: 0,
+                clicked: false,
                 errorMessage: {},
-                meta: {}
+                meta: {},
+                i: 0,
+                j: 0,
             }
         },
-        created(){
+        created() {
             this.fetchData();
+            //this.getLength();
+            //this.getParticipants();
         },
         methods: {
-            joinEvent(){
+            getLength() {
+                axios.post('/events/getparticipants')
+                    .then(response => {
+                        this.number_of_players = response.data.length;
+                        console.log(this.number_of_players);
+                    });
 
             },
-            fetchData( page = 1) {
+            getPlayers(id) {
+                axios.post('/events/players' + id)
+                    .then()
+                    .catch();
+            },
+            isUserInEvent() {
+
+            },
+            getParticipants() {
+                axios.post('/events/getparticipants')
+                    .then(response => {
+                        console.log("participant gelmedi");
+                        this.participants = response.data;
+                        console.log("participant geldi");
+                        //console.log(this.participants);
+                        console.log(this.participants);
+
+                    });
+            },
+            joinEvent(id) {
+                axios.post("/events/join/" + id)
+                    .then(response => {
+                        this.number_of_players = response.data.length;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+                this.fetchData();
+            },
+            fetchData(page = 1) {
                 this.errorMessage = null;
                 this.list = null;
-                axios.get("/events", {params: { page }})
+                this.getParticipants();
+                axios.get("/events", {params: {page}})
                     .then(response => {
                         this.list = response.data.data;
                         this.meta = response.data.meta;
                     })
                     .catch(error => {
-                        if(error.response != null)
-                            {this.errorMessage = error.response.data.message;}
+                        if (error.response != null) {
+                            this.errorMessage = error.response.data.message;
+                        }
                         else
                             this.errorMessage = error.message;
                     });
+
+
             },
-            createData(){
+            createData() {
                 this.item = {};
                 this.$refs.eventModal.errorMessage = '';
                 $('#eventModal').modal('show');
             },
-            refreshData(item){
+            refreshData(item) {
                 this.fetchData();
             },
-            editData(id){
-                axios.get("/events/"+id)
+            editData(id) {
+                axios.get("/events/" + id)
                     .then(response => {
                         this.$refs.eventModal.errorMessage = '';
                         this.item = response.data;
                         $('#eventModal').modal('show');
                     })
                     .catch(error => {
-                        if(error.response != null)
-                        {this.errorMessage = error.response.data.message;}
+                        if (error.response != null) {
+                            this.errorMessage = error.response.data.message;
+                        }
                         else
                             this.errorMessage = error.message;
                     });
             },
-            deleteData(id){
+            deleteData(id) {
                 swal({
                     title: 'Are you sure?',
                     text: 'Are you sure you want to delete?',
@@ -135,15 +180,16 @@
                     cancelButtonText: 'Cancel',
                     confirmButtonText: 'Proceed'
                 }).then(result => {
-                    if(result.value){
+                    if (result.value) {
                         axios.delete('/events/' + id)
                             .then(response => {
-                               this.fetchData();
-                               toastr.success('Record deleted', 'Event');
+                                this.fetchData();
+                                toastr.success('Record deleted', 'Event');
                             })
                             .catch(error => {
-                                if(error.response != null)
-                                {this.errorMessage = error.response.data.message;}
+                                if (error.response != null) {
+                                    this.errorMessage = error.response.data.message;
+                                }
                                 else
                                     this.errorMessage = error.message;
                             });

@@ -11,6 +11,11 @@
                         administrator.</p>
                 </div>
                 <form autocomplete="off" @submit.prevent="register" v-if="!success" method="post">
+                    <div class="form-group" v-bind:class="{ 'has-error': has_error && errors.name}">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" class="form-control" placeholder="Your Name Here"
+                               v-model="name">
+                    </div>
                     <div class="form-group" v-bind:class="{ 'has-error': has_error && errors.email }">
                         <label for="email">E-mail</label>
                         <input type="email" id="email" class="form-control" placeholder="user@example.com"
@@ -52,6 +57,7 @@
                 var app = this
                 this.$auth.register({
                     data: {
+                        name: app.name,
                         email: app.email,
                         password: app.password,
                         password_confirmation: app.password_confirmation

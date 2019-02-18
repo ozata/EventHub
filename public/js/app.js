@@ -53980,6 +53980,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -53995,30 +53996,71 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 game_id: ''
             },
             list: null,
+            participants: null,
+            event_participants: [],
+            number_of_players: 0,
+            clicked: false,
             errorMessage: {},
-            meta: {}
+            meta: {},
+            i: 0,
+            j: 0
         };
     },
     created: function created() {
         this.fetchData();
+        //this.getLength();
+        //this.getParticipants();
     },
 
     methods: {
-        joinEvent: function joinEvent() {},
-        fetchData: function fetchData() {
+        getLength: function getLength() {
             var _this = this;
+
+            axios.post('/events/getparticipants').then(function (response) {
+                _this.number_of_players = response.data.length;
+                console.log(_this.number_of_players);
+            });
+        },
+        getPlayers: function getPlayers(id) {
+            axios.post('/events/players' + id).then().catch();
+        },
+        isUserInEvent: function isUserInEvent() {},
+        getParticipants: function getParticipants() {
+            var _this2 = this;
+
+            axios.post('/events/getparticipants').then(function (response) {
+                console.log("participant gelmedi");
+                _this2.participants = response.data;
+                console.log("participant geldi");
+                //console.log(this.participants);
+                console.log(_this2.participants);
+            });
+        },
+        joinEvent: function joinEvent(id) {
+            var _this3 = this;
+
+            axios.post("/events/join/" + id).then(function (response) {
+                _this3.number_of_players = response.data.length;
+            }).catch(function (error) {
+                console.log(error);
+            });
+            this.fetchData();
+        },
+        fetchData: function fetchData() {
+            var _this4 = this;
 
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
             this.errorMessage = null;
             this.list = null;
+            this.getParticipants();
             axios.get("/events", { params: { page: page } }).then(function (response) {
-                _this.list = response.data.data;
-                _this.meta = response.data.meta;
+                _this4.list = response.data.data;
+                _this4.meta = response.data.meta;
             }).catch(function (error) {
                 if (error.response != null) {
-                    _this.errorMessage = error.response.data.message;
-                } else _this.errorMessage = error.message;
+                    _this4.errorMessage = error.response.data.message;
+                } else _this4.errorMessage = error.message;
             });
         },
         createData: function createData() {
@@ -54030,20 +54072,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.fetchData();
         },
         editData: function editData(id) {
-            var _this2 = this;
+            var _this5 = this;
 
             axios.get("/events/" + id).then(function (response) {
-                _this2.$refs.eventModal.errorMessage = '';
-                _this2.item = response.data;
+                _this5.$refs.eventModal.errorMessage = '';
+                _this5.item = response.data;
                 $('#eventModal').modal('show');
             }).catch(function (error) {
                 if (error.response != null) {
-                    _this2.errorMessage = error.response.data.message;
-                } else _this2.errorMessage = error.message;
+                    _this5.errorMessage = error.response.data.message;
+                } else _this5.errorMessage = error.message;
             });
         },
         deleteData: function deleteData(id) {
-            var _this3 = this;
+            var _this6 = this;
 
             swal({
                 title: 'Are you sure?',
@@ -54055,12 +54097,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).then(function (result) {
                 if (result.value) {
                     axios.delete('/events/' + id).then(function (response) {
-                        _this3.fetchData();
+                        _this6.fetchData();
                         toastr.success('Record deleted', 'Event');
                     }).catch(function (error) {
                         if (error.response != null) {
-                            _this3.errorMessage = error.response.data.message;
-                        } else _this3.errorMessage = error.message;
+                            _this6.errorMessage = error.response.data.message;
+                        } else _this6.errorMessage = error.message;
                     });
                 }
             });
@@ -54664,9 +54706,7 @@ var render = function() {
       _vm._v(" "),
       _vm.errorMessage
         ? _c("div", { staticClass: "alert alert-danger" }, [
-            _vm._v(
-              "\n                " + _vm._s(_vm.errorMessage) + "\n            "
-            )
+            _vm._v("\n            " + _vm._s(_vm.errorMessage) + "\n        ")
           ])
         : _vm._e(),
       _vm._v(" "),
@@ -54691,7 +54731,16 @@ var render = function() {
                   _vm._v(" "),
                   _c("td", [_vm._v(_vm._s(when_is_it))]),
                   _vm._v(" "),
-                  _c("td", [_vm._v("Ata")]),
+                  _c(
+                    "td",
+                    _vm._l(_vm.participants[id], function(participant) {
+                      return _c("div", [
+                        _c("li", [
+                          _vm._v(" " + _vm._s(participant.email) + " ")
+                        ])
+                      ])
+                    })
+                  ),
                   _vm._v(" "),
                   _vm.$auth.check(2)
                     ? _c("td", [
@@ -54699,7 +54748,11 @@ var render = function() {
                           "button",
                           {
                             staticClass: "btn btn-success",
-                            on: { click: _vm.joinEvent }
+                            on: {
+                              click: function($event) {
+                                _vm.joinEvent(id)
+                              }
+                            }
                           },
                           [_vm._v("Join Event!")]
                         ),
@@ -54738,7 +54791,11 @@ var render = function() {
                           "button",
                           {
                             staticClass: "btn btn-success",
-                            on: { click: _vm.joinEvent }
+                            on: {
+                              click: function($event) {
+                                _vm.joinEvent(id)
+                              }
+                            }
                           },
                           [_vm._v("Join Event!")]
                         )
@@ -54749,7 +54806,7 @@ var render = function() {
             ],
             2
           )
-        : _c("p", [_vm._v(" No Records Found. ")]),
+        : _c("p", [_vm._v(" Loading ... ")]),
       _vm._v(" "),
       _c("pagination", {
         attrs: { meta: _vm.meta },
@@ -55647,6 +55704,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -55667,6 +55729,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var app = this;
             this.$auth.register({
                 data: {
+                    name: app.name,
                     email: app.email,
                     password: app.password,
                     password_confirmation: app.password_confirmation
@@ -55728,6 +55791,43 @@ var render = function() {
                 }
               },
               [
+                _c(
+                  "div",
+                  {
+                    staticClass: "form-group",
+                    class: { "has-error": _vm.has_error && _vm.errors.name }
+                  },
+                  [
+                    _c("label", { attrs: { for: "name" } }, [_vm._v("Name")]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.name,
+                          expression: "name"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "text",
+                        id: "name",
+                        placeholder: "Your Name Here"
+                      },
+                      domProps: { value: _vm.name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.name = $event.target.value
+                        }
+                      }
+                    })
+                  ]
+                ),
+                _vm._v(" "),
                 _c(
                   "div",
                   {

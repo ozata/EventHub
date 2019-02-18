@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\EventResource;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Event;
@@ -11,21 +12,51 @@ use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
+
+    public function getPlayers($id){
+
+        $event = Event::find($id);
+        $players = $event->users()->get();
+        return response()->json($players, 200);;
+
+    }
+
+    public function isUserInEvent(){
+        $id = Auth::user()->id;
+        $user = User::find($id);
+        $user->events()->get();
+    }
+
+    public function getParticipants(){
+        $events = Event::all();
+        $user_list = array();
+        foreach($events as $event){
+            $user = $event->users()->get();
+            $user_list[$event->id] = $user;
+        }
+        return response()->json($user_list, 200);
+    }
+
+
+    public function join(Request $request, $id)
+{
+    $event = Event::find($id);
+    $user_id = Auth::user()->id;
+    $event->users()->attach($user_id);
+
+    return $event->users()->get();
+}
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
 
-
-
-    public function join(Request $request, Event $event, $id){
-        $event->users()->attach($id);
-    }
-
     // Bir model içerisindeki tüm kayıtları çekmeyi sağlar.
     public function index()
-    {   $events = EventResource::collection(Event::orderByDesc('id')->paginate(5));
+    {
+        $events = EventResource::collection(Event::orderByDesc('id')->paginate(5));
         return $events;
         //return response()->json(['events' => $events], 200);
     }
@@ -33,7 +64,7 @@ class EventController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
 
@@ -47,7 +78,7 @@ class EventController extends Controller
             'when_is_it' => 'required|string',
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'success' => false,
                 'message' => 'Failed',
@@ -55,7 +86,7 @@ class EventController extends Controller
             ], 422);
         }
 
-        Event::create($request->only('name','creator','when_is_it', 'game_id'));
+        Event::create($request->only('name', 'creator', 'when_is_it', 'game_id'));
 
         return response()->json([
             'success' => true,
@@ -63,13 +94,12 @@ class EventController extends Controller
         ]);
 
 
-
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
 
@@ -104,7 +134,7 @@ class EventController extends Controller
             'when_is_it' => 'required|string',
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'success' => false,
                 'message' => 'Failed',
@@ -112,12 +142,12 @@ class EventController extends Controller
             ], 422);
         }
 
-        $event->update($request->only('name','creator','when_is_it', 'game_id'));
+        $event->update($request->only('name', 'creator', 'when_is_it', 'game_id'));
 
         return response()->json([
             'success' => true,
             'message' => 'Saved'
-        ],206);
+        ], 206);
 
     }
 
@@ -137,7 +167,6 @@ class EventController extends Controller
             'success' => true,
             'message' => 'Deleted'
         ]);
-
 
 
     }
