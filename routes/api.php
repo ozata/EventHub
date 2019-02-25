@@ -48,4 +48,3 @@ Route::group(['middleware' => 'auth:api'], function(){
 
 Route::post('events/join/{id}', 'Api\EventController@join')->name('events.join');
 Route::post('events/getparticipants', 'Api\EventController@getParticipants')->name('events.getparticipants');
-Route::post('events/players/{id}', 'Api\EventController@getPlayers')->name('events.getplayers');

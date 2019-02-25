@@ -1,16 +1,10 @@
 <?php
-
-
 namespace App\Http\Controllers\Api;
-
 use App\Game;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\GameResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
-
-
 class GameController extends Controller
 {
     /**
@@ -22,9 +16,7 @@ class GameController extends Controller
     {
         $games = GameResource::collection(Game::orderByDesc('id')->paginate(100));
         return $games;
-        //return response()->json(['games' => $games], 200);
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -34,7 +26,6 @@ class GameController extends Controller
     {
         //
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -43,13 +34,11 @@ class GameController extends Controller
      */
     public function store(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'description' => 'required',
             'total_number_of_players' => 'required'
         ]);
-
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
@@ -57,15 +46,12 @@ class GameController extends Controller
                 'errors' => $validator->errors(),
             ], 422);
         }
-
         Game::create($request->only('name', 'description', 'total_number_of_players'));
-
         return response()->json([
             'success' => true,
             'message' => 'Saved'
         ]);
     }
-
     /**
      * Display the specified resource.
      *
@@ -78,7 +64,6 @@ class GameController extends Controller
         $game = new GameResource(Game::find($id));
         return response()->json($game, 200);
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -89,7 +74,6 @@ class GameController extends Controller
     {
         //
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -104,7 +88,6 @@ class GameController extends Controller
             'description' => 'required',
             'total_number_of_players' => 'required'
         ]);
-
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
@@ -112,16 +95,12 @@ class GameController extends Controller
                 'errors' => $validator->errors(),
             ], 422);
         }
-
         $game->update($request->only('name', 'description', 'total_number_of_players'));
-
         return response()->json([
             'success' => true,
             'message' => 'Updated'
         ]);
-
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -132,11 +111,9 @@ class GameController extends Controller
     {
         $game = Game::find($id);
         $game->delete();
-
         return response()->json([
             'success' => true,
             'message' => 'Deleted'
         ]);
     }
-
 }

@@ -7,13 +7,15 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Event;
+use App\Game;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
 
-    public function getPlayers($id){
+    public function getPlayers($id)
+    {
 
         $event = Event::find($id);
         $players = $event->users()->get();
@@ -21,31 +23,47 @@ class EventController extends Controller
 
     }
 
-    public function isUserInEvent(){
-        $id = Auth::user()->id;
-        $user = User::find($id);
-        $user->events()->get();
-    }
-
-    public function getParticipants(){
+    public function getParticipants()
+    {
         $events = Event::all();
         $user_list = array();
-        foreach($events as $event){
+        foreach ($events as $event) {
             $user = $event->users()->get();
             $user_list[$event->id] = $user;
         }
         return response()->json($user_list, 200);
     }
 
+    /**
+     *
+     *  User joins a game.
+     *  If it is full or the user is in already in Event, she can't join.
+     *
+     * @param Request $request
+     * @param $id
+     * @return string
+     *
+     *
+     */
+
 
     public function join(Request $request, $id)
-{
-    $event = Event::find($id);
-    $user_id = Auth::user()->id;
-    $event->users()->attach($user_id);
-
-    return $event->users()->get();
-}
+    {
+        $event = Event::find($id);
+        $user_id = Auth::user()->id;
+        $game_id = $event->game_id;
+        $game = Game::find($game_id);
+        $user_in_event = $event->users()->where('id', $user_id)->exists();
+        $numberOfUsersInEvent = count($event->users()->get());
+        $totalNumberOfPlayersOfGame = $game->total_number_of_players;
+        if ($user_in_event) {
+            return "User is already in event";
+        } else if ($numberOfUsersInEvent >= $totalNumberOfPlayersOfGame) {
+            return "The Event is Full";
+        }
+        $event->users()->attach($user_id);
+        return $event->users()->get();
+    }
 
     /**
      * Display a listing of the resource.
@@ -153,6 +171,7 @@ class EventController extends Controller
 
 
     // Bir ID'ye ait kaydı silmeyi sağlar
+
     /**
      * @param Event $event
      * @return \Illuminate\Http\JsonResponse

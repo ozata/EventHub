@@ -34,7 +34,7 @@
         methods: {
             getUsers() {
                 this.$http({
-                    url: 'users',
+                    url: '/users',
                     method: 'GET'
                 })
                     .then((res) => {

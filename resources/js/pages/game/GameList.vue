@@ -22,19 +22,16 @@
 
         <table class="table table-bordered table-hover" v-if="list && list.length">
             <tr>
-                <th>ID</th>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Max. Players</th>
-                <th>Action</th>
             </tr>
 
             <tr v-for="{id, name, description, total_number_of_players} in list">
-                <td>{{ id   }}</td>
                 <td>{{ name }}</td>
                 <td>{{ description }}</td>
                 <td>{{ total_number_of_players }}</td>
-                <td>
+                <td v-if="$auth.check(2)">
                     <button @click="editData(id)" class="btn btn-success">Edit</button>
                     <button @click="deleteData(id)" class="btn btn-danger">Delete</button>
                 </td>
