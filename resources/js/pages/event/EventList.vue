@@ -34,7 +34,7 @@
                 <td>{{ game.name }}</td>
                 <td>{{ when_is_it }}</td>
 
-                <td> {{ participants[id].length }} / {{ total_players_in_game[game.id-1].total_number_of_players}}
+                <td v-if="total_players_in_game[game.id-1]"> {{ participants[id].length }} / {{ total_players_in_game[game.id-1].total_number_of_players}}
                 </td>
                 <td>
                     <div v-for="participant in participants[id]">
@@ -47,9 +47,9 @@
                     <button @click="editData(id)" class="btn btn-info">Edit Event</button>
                     <button @click="deleteData(id)" class="btn btn-danger">Delete Event</button>
                 </td>
-                <td v-if="$auth.check(1)">
-                    <button @click="joinEvent(id)" class="btn btn-success"
-                            :disabled="participants[id].length >= total_players_in_game[game.id-1].total_number_of_players">
+                <td v-if="$auth.check(1) && total_players_in_game[game.id-1]">
+                    <button @click="joinEvent(id)" class="btn btn-success" :disabled="participants[id].length >= total_players_in_game[game.id-1].total_number_of_players
+                    ||  isLoggedInUserInEvent(id)">
                         Join Event!
                     </button>
                 </td>
@@ -93,6 +93,9 @@
                 meta: {},
                 total_players_in_game: 0,
                 current_players_number: [],
+                current_page : 1,
+                users_in_event: null,
+                logged_user_name: null,
             }
         },
         mounted() {
@@ -103,13 +106,16 @@
             this.getTotalPlayers();
         },
         methods: {
+            isLoggedInUserInEvent(id){
+                for (var i = 0; i < this.participants[id].length; i++) {
+                    if (this.participants[id][i].email.toLowerCase() === this.$auth.user().email.toLowerCase()) return true;
+                }
+                return false;
+            },
             getTotalPlayers() {
                 axios.get('/games/')
                     .then(response => {
                         this.total_players_in_game = response.data.data.reverse();
-                        console.log(this.total_players_in_game)
-                        console.log("Secret Hitler ID: ");
-                        console.log(this.total_players_in_game[13]);
                     })
             },
             getLength() {
@@ -133,7 +139,7 @@
                     .catch(error => {
                         console.log(error);
                     });
-                this.fetchData();
+                this.fetchData(this.current_page);
             },
             fetchData(page = 1) {
                 this.errorMessage = null;
@@ -141,9 +147,8 @@
                 this.getParticipants();
                 axios.get("/events", {params: {page}})
                     .then(response => {
+                        this.current_page = response.data.meta.current_page;
                         this.list = response.data.data;
-                        //console.log(this.list[0].game.id);
-                        console.log(this.list);
                         this.meta = response.data.meta;
                     })
                     .catch(error => {
